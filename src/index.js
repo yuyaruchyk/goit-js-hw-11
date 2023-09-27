@@ -3,19 +3,30 @@ import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-import { fetchImg } from './img-api';
-
-const refs = {
-    form: document.querySelector('.search-form'),
-    gallery: document.querySelector('.gallery'),
-    loadBtn: document.querySelector('.load-more')
+import ImageSearch from "./img-api";
 
 
-}
+const imgService = new ImageSearch();
+
 
 refs.form.addEventListener('submit', onSubmit);
+refs.loadBtn.addEventListener('click', onLoad);
+function onSubmit(e) {
+  e.preventDefault();
+  const query = e.currentTarget.elements.query.value;
+    
+  imgService.searchQuery = query; 
+  imgService.page = 1; 
+  imgService.fetchImages(query, page)
+      .then(images => {
+        console.log(images)
+      console.log(images);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}
 
-onSubmit(e) {
-    e.preventDefault();
-
+function onLoad() {
+  imgService.fetchImages(); 
 }
