@@ -3,9 +3,9 @@ import Notiflix from 'notiflix';
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
-import { getImage } from './img-api'
+import GetImageApi from './img-api'
 
-
+const getImageApi = new GetImageApi();
 
 const refs = {
     form: document.querySelector('.search-form'),
@@ -14,7 +14,7 @@ const refs = {
 } 
 
 
-let currentPage = 1;
+
 
 refs.form.addEventListener('submit', onSearch);
 refs.loadMore.addEventListener('click', onLoadMore);
@@ -38,10 +38,10 @@ function generateImageMarkup(imageInfo) {
 function onSearch(e) {
     e.preventDefault();
 
-    currentPage = 1;
+    
 
-    const searchQuery = refs.form.elements.searchQuery.value;
-    getImage(searchQuery)
+    getImageApi.query = e.currentTarget.elements.query.value;
+    getImageApi.getImage()
         .then(data => {
             const imageInfo = data.hits;
             console.log(imageInfo);
@@ -63,12 +63,12 @@ function onSearch(e) {
 
 
 function onLoadMore(e) {
-    e.preventDefault();
+   
 
-    currentPage += 1;
+    
 
-    const searchQuery = refs.form.elements.searchQuery.value;
-    getImage(searchQuery)
+    
+    getImageApi.getImage()
      .then(data => {
          const additionalImageInfo = data.hits;
            const markUp = generateImageMarkup(additionalImageInfo);
