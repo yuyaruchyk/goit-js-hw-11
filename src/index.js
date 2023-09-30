@@ -37,17 +37,24 @@ function generateImageMarkup(imageInfo) {
 
 function onSearch(e) {
     e.preventDefault();
-
+    
     
 
     getImageApi.query = e.currentTarget.elements.query.value;
+
+    if (getImageApi.query === "") {
+        return Notiflix.Notify.failure("Enter a word to search for")
+
+    }
+    getImageApi.resetPage();
     getImageApi.getImage()
         .then(data => {
             const imageInfo = data.hits;
-            console.log(imageInfo);
+            
 
-            if (imageInfo.length === 0) {
-                 Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+            if (data.length || imageInfo.length === 0) {
+                
+                 Notiflix.Notify.failure("Sorry, there are no images matching your search. Please try again.");
             }
 
             const markUp = generateImageMarkup(imageInfo);
@@ -69,8 +76,17 @@ function onLoadMore(e) {
 
     
     getImageApi.getImage()
-     .then(data => {
-         const additionalImageInfo = data.hits;
+        .then(data => {
+         
+
+            const additionalImageInfo = data.hits;
+
+              if (additionalImageInfo.length === 0) {
+                
+                 Notiflix.Notify.failure("Sorry, there are no images matching your search. Please try again.");
+            }
+            
+
            const markUp = generateImageMarkup(additionalImageInfo);
           refs.gallery.innerHTML += markUp;
       })
