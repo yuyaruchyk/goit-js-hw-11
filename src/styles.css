@@ -4,6 +4,10 @@ body {
     background-color: #d9dcee;
 }
 
+.hidden {
+    display: none;
+}
+
 .input {
     display: block;
     margin-left: auto;
@@ -62,6 +66,7 @@ font-weight: 500;
     background-color: #777997;
 }
 
-.page-btn:focus {
-    background-color: #3a3b49;
+
+.hidden {
+    display: none;
 }

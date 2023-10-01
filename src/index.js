@@ -10,10 +10,16 @@ const getImageApi = new GetImageApi();
 const refs = {
     form: document.querySelector('.search-form'),
     gallery: document.querySelector('.gallery'),
+    submit: document.querySelector('.submit-btn'),
     loadMore: document.querySelector('.load-more')
 } 
 
+document.addEventListener('DOMContentLoaded', function() {
 
+refs.loadMore.classList.add('hidden');
+ 
+
+});
 
 
 refs.form.addEventListener('submit', onSearch);
@@ -56,16 +62,24 @@ function onSearch(e) {
     getImageApi.query = e.currentTarget.elements.query.value;
 
     if (getImageApi.query === "") {
-        return Notiflix.Notify.failure("Enter a word to search for")
+       
+       
+        
+        return Notiflix.Notify.failure("Enter a word to search for");
 
+        
+     
     }
+
+    
     getImageApi.resetPage();
     getImageApi.getImage()
         .then(data => {
             const imageInfo = data.hits;
             
 
-            if (data.length || imageInfo.length === 0) {
+            if (imageInfo.length === 0) {
+refs.loadMore.classList.add('hidden');
                 
                  Notiflix.Notify.failure("Sorry, there are no images matching your search. Please try again.");
             }
@@ -80,7 +94,7 @@ function onSearch(e) {
             Notiflix.Notify.failure("An error occurred while fetching images. Please try again later.");
         });
     
-   
+  refs.loadMore.classList.remove('hidden');
     
 }
 
@@ -93,26 +107,22 @@ function onLoadMore(e) {
     
     getImageApi.getImage()
         .then(data => {
-         
-
             const additionalImageInfo = data.hits;
 
-              if (additionalImageInfo.length === 0) {
-                
-                 Notiflix.Notify.failure("Sorry, there are no images matching your search. Please try again.");
+            if (additionalImageInfo.length === 0) {
+                refs.loadMore.classList.add('hidden');
+                Notiflix.Notify.failure("Sorry, there are no images matching your search. Please try again.");
+            } else {
+                const markUp = generateImageMarkup(additionalImageInfo);
+                refs.gallery.innerHTML += markUp;
             }
-            
-
-           const markUp = generateImageMarkup(additionalImageInfo);
-          refs.gallery.innerHTML += markUp;
-      })
-     .catch(error => {
-         console.error(error);
-         Notiflix.Notify.failure("An error occurred while fetching images. Please try again later.");
-    });
-}
+        })
+        .catch(error => {
+            console.error(error);
+            Notiflix.Notify.failure("An error occurred while fetching images. Please try again later.");
+        });
     
-     
+}
         
 
 
