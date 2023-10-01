@@ -22,16 +22,29 @@ refs.loadMore.addEventListener('click', onLoadMore);
 
 function generateImageMarkup(imageInfo) {
     return imageInfo.map(image => `
-        <div class="image-container">
-            <img class="main-image" src="${image.webformatURL}" alt="${image.tags}">
-            <div class="text-container"> 
-                <p class="main-text">Tags: ${image.tags}</p>
-                <p class="main-text">Likes: ${image.likes}</p>
-                <p class="main-text">Views: ${image.views}</p>
-                <p class="main-text">Comments: ${image.comments}</p>
-                <p class="main-text">Downloads: ${image.downloads}</p>
-            </div>
-        </div>
+
+<div class="photo-card">
+  <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+  <div class="info">
+    <p class="info-item">
+      <b>Likes ${image.likes}</b>
+    </p>
+    <p class="info-item">
+      <b>Views ${image.views}</b>
+    </p>
+    <p class="info-item">
+      <b>Comments ${image.comments}</b>
+    </p>
+    <p class="info-item">
+      <b>Downloads ${image.downloads}</b>
+    </p>
+  </div>
+</div>
+
+
+
+
+    
     `).join('');
 }
 
@@ -66,6 +79,9 @@ function onSearch(e) {
             console.error(error);
             Notiflix.Notify.failure("An error occurred while fetching images. Please try again later.");
         });
+    
+   
+    
 }
 
 
