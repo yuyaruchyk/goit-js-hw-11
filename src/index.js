@@ -30,7 +30,7 @@ function generateImageMarkup(imageInfo) {
     return imageInfo.map(image => `
 
 <div class="photo-card">
-  <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" style="width: 300px; height: 180px"  />
+  <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" style="width: 300px; height: 200px; object-fit: cover"  />
   <div class="info">
     <p class="info-item">
       <b>Likes ${image.likes}</b>
