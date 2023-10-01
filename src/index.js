@@ -38,16 +38,16 @@ function generateImageMarkup(imageInfo) {
   <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" style="width: 300px; height: 200px; object-fit: cover"  />
   <div class="info">
     <p class="info-item">
-      <b>Likes ${image.likes}</b>
+      <b>Likes <span class="span">${image.likes}</span> </b>
     </p>
     <p class="info-item">
-      <b>Views ${image.views}</b>
+      <b>Views <span class="span">${image.views}</span></b>
     </p>
     <p class="info-item">
-      <b>Comments ${image.comments}</b>
+      <b>Comments <span class="span">${image.comments}</span> </b>
     </p>
     <p class="info-item">
-      <b>Downloads ${image.downloads}</b>
+      <b>Downloads <span class="span">${image.downloads}</span> </b>
     </p>
   </div>
 </div>
