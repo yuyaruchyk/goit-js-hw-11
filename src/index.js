@@ -30,7 +30,7 @@ function generateImageMarkup(imageInfo) {
     return imageInfo.map(image => `
 
 <div class="photo-card">
-  <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" />
+  <img src="${image.webformatURL}" alt="${image.tags}" loading="lazy" style="width: 300px; height: 180px"  />
   <div class="info">
     <p class="info-item">
       <b>Likes ${image.likes}</b>
@@ -91,6 +91,7 @@ refs.loadMore.classList.add('hidden');
         })
         .catch(error => {
             console.error(error);
+             refs.loadMore.classList.add('hidden');
             Notiflix.Notify.failure("An error occurred while fetching images. Please try again later.");
         });
     
@@ -119,6 +120,7 @@ function onLoadMore(e) {
         })
         .catch(error => {
             console.error(error);
+             refs.loadMore.classList.add('hidden');
             Notiflix.Notify.failure("An error occurred while fetching images. Please try again later.");
         });
     
