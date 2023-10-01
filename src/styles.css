@@ -66,14 +66,30 @@ font-weight: 500;
     background-color: #777997;
 }
 
+.load-more {
+    margin-top: 20px;
+
+}
+
+
 .gallery {
 
     display: flex;
+    align-items: center;
+        justify-content: center;
         flex-wrap: wrap;
         column-gap: 24px;
         row-gap: 48px;
 }
 
+.info {
+    
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
 
 
 
