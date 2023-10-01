@@ -7,6 +7,8 @@ import GetImageApi from './img-api'
 
 const getImageApi = new GetImageApi();
 
+
+
 const refs = {
     form: document.querySelector('.search-form'),
     gallery: document.querySelector('.gallery'),
@@ -14,16 +16,19 @@ const refs = {
     loadMore: document.querySelector('.load-more')
 } 
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
 
 refs.loadMore.classList.add('hidden');
- 
 
 });
 
 
+
 refs.form.addEventListener('submit', onSearch);
 refs.loadMore.addEventListener('click', onLoadMore);
+
 
 
 function generateImageMarkup(imageInfo) {
@@ -46,73 +51,60 @@ function generateImageMarkup(imageInfo) {
     </p>
   </div>
 </div>
-
-
-
-
     
     `).join('');
 }
 
+
+
 function onSearch(e) {
-    e.preventDefault();
-    
-    
+  e.preventDefault();
 
-    getImageApi.query = e.currentTarget.elements.query.value;
+  getImageApi.query = e.currentTarget.elements.query.value;
 
-    if (getImageApi.query === "") {
-       
-       
-        
-        return Notiflix.Notify.failure("Enter a word to search for");
+  if (getImageApi.query === "") {
+    Notiflix.Notify.failure("Enter a word to search for");
+    return;
+  }
 
-        
-     
-    }
+  getImageApi.resetPage();
+  getImageApi
+    .getImage()
+    .then(data => {
+      const imageInfo = data.hits;
 
-    
-    getImageApi.resetPage();
-    getImageApi.getImage()
-        .then(data => {
-            const imageInfo = data.hits;
-            
+      if (imageInfo.length === 0) {
+        refs.loadMore.classList.add('hidden');
+        refs.form.reset();
+        Notiflix.Notify.failure("Sorry, there are no images matching your search. Please try again.");
+      }
 
-            if (imageInfo.length === 0) {
-refs.loadMore.classList.add('hidden');
-                
-                 Notiflix.Notify.failure("Sorry, there are no images matching your search. Please try again.");
-            }
+      const markUp = generateImageMarkup(imageInfo);
 
-            const markUp = generateImageMarkup(imageInfo);
+      refs.gallery.innerHTML = markUp;
+    })
+    .catch(error => {
+      console.error(error);
+      refs.loadMore.classList.add('hidden');
+      Notiflix.Notify.failure("An error occurred while fetching images. Please try again later.");
+    });
 
-            refs.gallery.innerHTML = markUp;
-
-        })
-        .catch(error => {
-            console.error(error);
-             refs.loadMore.classList.add('hidden');
-            Notiflix.Notify.failure("An error occurred while fetching images. Please try again later.");
-        });
-    
   refs.loadMore.classList.remove('hidden');
-    
 }
 
 
+
+
 function onLoadMore(e) {
-   
-
-    
-
-    
     getImageApi.getImage()
         .then(data => {
             const additionalImageInfo = data.hits;
 
             if (additionalImageInfo.length === 0) {
-                refs.loadMore.classList.add('hidden');
-                Notiflix.Notify.failure("Sorry, there are no images matching your search. Please try again.");
+                refs.form.reset();
+                 refs.loadMore.classList.add('hidden');
+
+                Notiflix.Notify.failure("Sorry, there are no more images matching your search.");
             } else {
                 const markUp = generateImageMarkup(additionalImageInfo);
                 refs.gallery.innerHTML += markUp;
@@ -125,13 +117,3 @@ function onLoadMore(e) {
         });
     
 }
-        
-
-
-
-
-
-
-
-
-
