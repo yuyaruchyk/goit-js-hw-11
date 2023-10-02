@@ -118,7 +118,7 @@ function onLoadMore(e) {
         const additionalImageInfo = data.hits;
         console.log(data.hits)
 
-            if (additionalImageInfo.length === totalHits || additionalImageInfo.length === 0)  {
+            if (additionalImageInfo.length === 0)  {
                 refs.form.reset();
                  refs.loadMore.classList.add('hidden');
 
