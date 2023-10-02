@@ -126,6 +126,8 @@ async function onLoadMore(e) {
     } else {
       const markUp = generateImageMarkup(additionalImageInfo);
       refs.gallery.innerHTML += markUp;
+
+      lightbox.refresh();
     }
   } catch (error) {
     console.error(error);
