@@ -117,28 +117,24 @@ function onSearch(e) {
 
 
       
-
 async function onLoadMore(e) {
   try {
     const data = await getImageApi.getImage();
     console.log(data);
 
-    
     const additionalImageInfo = data.hits;
     const imgPerPage = 40;
-    
-     
-    if (additionalImageInfo.length < imgPerPage) {
-      refs.form.reset();
-      refs.loadMore.classList.add('hidden');
 
-      Notiflix.Notify.info("You've reached the end of search results.");
-    } else {
-      const markUp = generateImageMarkup(additionalImageInfo);
-      refs.gallery.innerHTML += markUp;
+     if (additionalImageInfo.length < imgPerPage) {
+        refs.form.reset();
+        refs.loadMore.classList.add('hidden');
+        Notiflix.Notify.info("You've reached the end of search results.");
+      }
 
-      lightbox.refresh();
-    }
+    const markUp = generateImageMarkup(additionalImageInfo);
+    refs.gallery.innerHTML += markUp;
+
+    lightbox.refresh();
   } catch (error) {
     console.error(error);
     refs.loadMore.classList.add('hidden');
